@@ -6,6 +6,10 @@ class StartTimerCommand extends Command {
     const {args} = this.parse(StartTimerCommand)
     const db = await StartTimerCommand.storage.load()
 
+    if (!db.projects || !db.projects[args.projectName]) {
+      this.error(`Project "${args.projectName}" does not exist`)
+    }
+
     // Check to see if there is a timer running on another project and end it
     if (db.activeProject && db.activeProject !== args.projectName) {
       db.projects[db.activeProject].entries[db.projects[db.activeProject].activeEntry].endTime = new Date(Date.now())
@@ -20,10 +24,6 @@ class StartTimerCommand extends Command {
       db.projects[args.projectName].entries.push({startTime: new Date(Date.now()), endTime: null})
     }
 
-    if (!db.projects || !db.projects[args.projectName]) {
-      this.error(`Project "${args.projectName}" does not exist`)
-    }
-
     this.log(`Started a new time entry on "${args.projectName}"`)
 
     await StartTimerCommand.storage.save(db)
@@ -32,7 +32,7 @@ class StartTimerCommand extends Command {
 
 StartTimerCommand.storage = new FilesystemStorage()
 
-StartTimerCommand.description = 'Add a new project to the time tracking database'
+StartTimerCommand.description = 'Start a timer for a project'
 
 StartTimerCommand.args = [
   {name: 'projectName', required: true},

@@ -29,7 +29,7 @@ class EndTimerCommand extends Command {
 
 EndTimerCommand.storage = new FilesystemStorage()
 
-EndTimerCommand.description = 'Add a new project to the time tracking database'
+EndTimerCommand.description = 'End a timer for a project'
 
 EndTimerCommand.args = [
   {name: 'projectName', required: true},

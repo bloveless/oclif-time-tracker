@@ -44,6 +44,6 @@ class ListProjectsCommand extends Command {
 
 ListProjectsCommand.storage = new FilesystemStorage()
 
-ListProjectsCommand.description = 'Add a new project to the time tracking database'
+ListProjectsCommand.description = 'List all projects and their related time entries'
 
 module.exports = ListProjectsCommand
